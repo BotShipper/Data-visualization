@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 import matplotlib.pyplot as plt
 
 # To set a webpage title, header and subtitle
@@ -60,12 +61,11 @@ with col2:
     st.write("""#### User score of movies and their genre """)
     rating_count_year = movies_data[score_info].groupby("genre")["score"].count()
     rating_count_year = rating_count_year.reset_index()
-    fig = plt.figure(figsize=(10, 6))
-    plt.plot(rating_count_year["genre"], rating_count_year["score"], marker='o')
-    plt.xlabel("Genre")
-    plt.ylabel("Score")
-    plt.title("User score of movies and their genre")
-    st.pyplot(fig)
+    figpx = px.line(rating_count_year, x="genre", y="score")
+    figpx.update_xaxes(showgrid=True, gridcolor='white')
+    figpx.update_yaxes(showgrid=True, gridcolor='white')
+    figpx.update_layout(width=650, plot_bgcolor='#202324')
+    st.plotly_chart(figpx)
 
 # Creating a bar graph with matplotlib
 st.write(""" Average Movie Budget, Grouped by Genre """)
